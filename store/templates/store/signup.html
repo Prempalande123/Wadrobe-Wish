@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+<div class="container">
+    <div class="p-4 m-4">
+
+        <div class="col-lg-5 mx-auto  border rounded p-4">
+            <h3 class="alert alert-light border rounded pt-4">Create An Account</h3>
+            <form action='/signup/' method="post">
+                {% csrf_token %}
+                {% if error%}
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="">Name</label>
+                    <input required class="form-control form-control-sm" type="text" name="name"
+                           value="{{values.name}}">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="">Phone</label>
+                    <input required class="form-control form-control-sm" type="text" name="phone"
+                           value="{{values.phone}}">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input required class="form-control form-control-sm" type="text" name="email" placeholder="example@gmail.com" value="{{values.email}}">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="">Password</label>
+                    <input required class="form-control form-control-sm" type="text" name="password" placeholder="********">
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <input class="btn btn-outline-info" type="submit" value="Create An Account">
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
+
+
+<!--<img src="{% static 'images/cart.png' %}"-->
+</body>
+</html>

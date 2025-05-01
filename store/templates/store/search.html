@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Search Results for <span class="text-success">"{{request.GET.search}}"</span></h3>
+            <br><br>
+
+            <div id="products" class="col-lg-10">
+                <div class="row mx-auto">
+                    <!--    <center><strong><h2>All Products</h2></strong></center>-->
+                    {% for product in products %}
+                    <div class="col-lg-4 mx-auto mb-4">
+                        <img class="thumbnail" src="{{product.imageURL}}">
+                        <div class="box-element product">
+                            <h6><strong>{{product.name}}</strong></h6>
+                            <hr>
+                            <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+                            <a class="btn btn-outline-success" href="{% url 'product' product.id %}">View</a>
+                            <br>
+                            <br>
+                            <h4 style="display:inline-block;float:down">Rs{{product.price|floatformat:2}}</h4>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    {% endblock content %}
+
+
+    <!--<img src="{% static 'images/cart.png' %}"-->
+</body>
+</html>

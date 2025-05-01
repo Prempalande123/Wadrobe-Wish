@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wadrobe Wish</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="shortcut icon" href="#">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1"/>
+    
+    <script type="text/javascript">
+        var user='{{request.user}}'
+
+        function getToken(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getToken('csrftoken');
+
+        function getCookie(name){
+            var cookieArr = document.cookie.split(";");
+            for (var i = 0; i < cookieArr.length; i++) {
+                var cookiePair = cookieArr[i].split("=");
+                if (name == cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+
+        var cart = JSON.parse(getCookie('cart'))
+        if (cart == undefined) {
+            cart = {}
+            console.log("Cart was created!")
+            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+        }
+        console.log("Cart:", cart)
+    </script>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1a1a2e; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'store' %}" style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: bold; color: #eaeaea;">
+                Wadrobe Wish
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'store' %}">Home</a>
+                    </li>
+                </ul>
+
+                <form method="GET" action="{% url 'search' %}" class="d-flex me-3">
+                    <input name="search" type="text" class="form-control me-2" placeholder="Search..." required>
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+
+                <div class="d-flex align-items-center">
+                    {% if customer_name %}
+                        <span class="text-white me-2">Hello, {{ customer_name }}!</span>
+                        <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm me-2">Logout</a>
+                    {% else %}
+                        <a href="{% url 'signup' %}" class="btn btn-outline-light me-2">Signup</a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Login</a>
+                    {% endif %}
+                    
+                    <a href="{% url 'cart' %}" class="position-relative me-2">
+                        <img id="cart-icon" src="{% static 'images/cart.png' %}" width="30" height="30">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-dark">
+                            {{ cartItems }}
+                        </span>
+                    </a>
+                    <!-- <a href="{% url 'wishlist_view' %}" class="btn btn-sm" style="font-size: 24px;">
+                        🤍K 
+                      </a> -->
+                      
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+    <script>
+        document.querySelectorAll('.wishlist-toggle-form').forEach(form => {
+          form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const productId = form.querySelector('input[name="product_id"]').value;
+            const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+            fetch("{% url 'toggle_wishlist' %}", {
+              method: 'POST',
+              headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              body: new URLSearchParams({ product_id: productId })
+            })
+            .then(res => res.json())
+            .then(data => {
+              if (data.status === 'added') {
+                form.querySelector('button').innerText = '❤️';
+                form.querySelector('button').classList.remove('btn-outline-danger');
+                form.querySelector('button').classList.add('btn-danger');
+              } else if (data.status === 'removed') {
+                form.querySelector('button').innerText = '🤍';
+                form.querySelector('button').classList.remove('btn-danger');
+                form.querySelector('button').classList.add('btn-outline-danger');
+              } else if (data.status === 'not_logged_in') {
+                alert('Please login to use the wishlist feature.');
+              }
+            });
+          });
+        });
+        </script>
+        
+</body>
+</html>

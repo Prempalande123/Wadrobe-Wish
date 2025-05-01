@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+<h3 class="text-center my-4">Your Wishlist ❤️</h3>
+
+<div class="row">
+  {% for item in wishlist_items %}
+    <div class="col-md-3 mb-4">
+      <div class="card">
+        <img src="{{ item.product.imageURL }}" class="card-img-top" alt="{{ item.product.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ item.product.name }}</h5>
+          <p class="card-text">{{ item.product.price|floatformat:2 }} ₹</p>
+          <a href="{% url 'view_product' item.product.id %}" class="btn btn-sm btn-outline-primary">View</a>
+          <form method="POST" action="{% url 'toggle_wishlist' %}" class="d-inline wishlist-form">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+            <button type="submit" class="btn btn-sm btn-danger remove-wishlist-btn">Remove ❤️</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-center">You have no items in your wishlist.</p>
+  {% endfor %}
+</div>
+{% endblock %}

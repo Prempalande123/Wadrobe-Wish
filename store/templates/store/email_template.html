@@ -1,0 +1,14 @@
+<h2>Order Confirmation</h2>
+<p>Hi {{ customer.name }},</p>
+<p>Thanks for your order! Here are your order details:</p>
+
+<ul>
+  {% for item in items %}
+    <li>{{ item.product.name }} (x{{ item.quantity }}) - Rs {{ item.get_total }}</li>
+  {% endfor %}
+</ul>
+
+<p><strong>Total:</strong> Rs {{ order.get_total_cart }}</p>
+<p>Transaction ID: {{ order.transaction_id }}</p>
+
+<p>We’ll ship your order to your address soon.</p>

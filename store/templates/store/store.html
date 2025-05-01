@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- 🌟 Banner Slider -->
+<div id="carouselBanner" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3000">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'images/B2.jpg' %}" class="d-block w-100" alt="Banner 1">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/B3.jpg' %}" class="d-block w-100" alt="Banner 2">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/B4.jpg' %}" class="d-block w-100" alt="Banner 3">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselBanner" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselBanner" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<!-- 🔽 Product Section -->
+<div class="container-fluid mt-3">
+    <div class="row">
+        <!-- Sidebar for Categories -->
+        <div class="col-lg-2 mx-auto">
+            <div class="list-group">
+                <a href="{% url 'store' %}" class="list-group-item list-group-item-action">All Products</a>
+                {% for category in categorys %}
+                <a href="/?category={{ category.id }}" class="list-group-item list-group-item-action">
+                    {{ category.title }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Product Cards -->
+        <div id="products" class="col-lg-10">
+            <div class="row mx-auto">
+                {% for product in products %}
+                <div class="col-lg-4 mx-auto mb-4">
+                    <img class="thumbnail" src="{{ product.imageURL }}" alt="{{ product.name }}">
+                    <div class="box-element product text-center">
+                        <div class="d-flex justify-content-end">
+                            <form method="POST" class="wishlist-toggle-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <button type="submit" class="wishlist-btn" title="{% if product.id in wishlist_products %}Remove from wishlist{% else %}Add to wishlist{% endif %}">
+                                    <i class="bi {% if product.id in wishlist_products %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <h6><strong>{{ product.name }}</strong></h6>
+                        <hr>
+                        <button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart mb-2">
+                            Add to Cart
+                        </button>
+                        <a class="btn btn-outline-success mb-2" href="{% url 'product' product.id %}">View</a>
+                        <br>
+                        <h4>Rs {{ product.price|floatformat:2 }}</h4>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

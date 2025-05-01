@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<!--Section: Block Content-->
+<section class="mb-5">
+
+    <div class="row">
+        <div class="col-md-6 mb-4 mb-md-0">
+
+            <div id="mdb-lightbox-ui"></div>
+
+            <div class="mdb-lightbox">
+
+                <div class="row product-gallery mx-1 mt-4">
+
+                    <div class="col-12 mb-0">
+
+                        <img class="pimage" src="{{product.imageURL}}" class="img-fluid z-depth-1">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-6 mt-4">
+
+            <h2>{{product.name}}</h2>
+            <hr>
+
+            <p><h2><strong>Rs {{product.price}}</strong></h2></p>
+            <hr>
+            <p class="pt-1">{{product.desc}}</p>
+<!--            <h4><strong>In Stock:</strong> {{product.stock}}</h4></p>-->
+
+            <hr>
+            <br>
+
+            <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+<!--            &nbsp;<a class="btn btn-outline-primary" href="{% url 'checkout' %}">Buy Now</a>-->
+        </div>
+
+
+
+
+<!--                    <h5><span>1</span> review for <span>{{product.name}}</span></h5>-->
+<!--                    <div class="media mt-3 mb-4">-->
+<!--                        <img class="d-flex mr-3 z-depth-1" src="{{product.imageURL}}" width="162" alt="Generic placeholder image">-->
+<!--                        <div class="media-body">-->
+<!--                            <div class="d-sm-flex justify-content-between">-->
+<!--&lt;!&ndash;                                <p class="mt-1 mb-2">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <strong>Marthasteward </strong>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span>– </span><span>January 28, 2020</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </p>&ndash;&gt;-->
+<!--                                <ul class="rating mb-sm-0">-->
+<!--                                    <li>-->
+<!--                                        <i class="fa fa-star fa-sm text-primary"></i>-->
+
+<!--                                        <i class="fa fa-star fa-sm text-primary"></i>-->
+
+<!--                                        <i class="fa fa-star fa-sm text-primary"></i>-->
+
+<!--                                        <i class="fa fa-star fa-sm text-primary"></i>-->
+
+<!--                                        <i class="fa fa-star fa-sm text-primary"></i>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                            <p class="mb-0">Nice one, love it!</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <hr>-->
+<!--                    <h5 class="mt-4">Add a review</h5>-->
+<!--                    <p>Your email address will not be published.</p>-->
+<!--                    <div class="my-3">-->
+<!--                        <ul class="rating mb-0">-->
+<!--                            <li>-->
+<!--                                <a href="#!">-->
+<!--                                    <i class="fa fa-star fa-sm text-primary"></i>-->
+<!--                                </a>-->
+
+<!--                                <a href="#!">-->
+<!--                                    <i class="fa fa-star fa-sm text-primary"></i>-->
+<!--                                </a>-->
+
+<!--                                <a href="#!">-->
+<!--                                    <i class="fa fa-star fa-sm text-primary"></i>-->
+<!--                                </a>-->
+
+<!--                                <a href="#!">-->
+<!--                                    <i class="fa fa-star fa-sm text-primary"></i>-->
+<!--                                </a>-->
+<!--                            -->
+<!--                                <a href="#!">-->
+<!--                                    <i class="fa fa-star fa-sm text-primary"></i>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        &lt;!&ndash; Your review &ndash;&gt;-->
+<!--                        <div class="md-form md-outline">-->
+<!--                            <textarea id="form76" class="md-textarea form-control pr-6" rows="4"></textarea>-->
+<!--                            <label for="form76">Your review</label>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; Name &ndash;&gt;-->
+<!--                        <div class="md-form md-outline">-->
+<!--                            <input type="text" id="form75" class="form-control pr-6">-->
+<!--                            <label for="form75">Name</label>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; Email &ndash;&gt;-->
+<!--                        <div class="md-form md-outline">-->
+<!--                            <input type="email" id="form77" class="form-control pr-6">-->
+<!--                            <label for="form77">Email</label>-->
+<!--                        </div>-->
+<!--                        <div class="text-right pb-2">-->
+<!--                            <button type="button" class="btn btn-primary">Add a review</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+        <!-- Classic tabs -->
+
+
+
+        </div>
+        <!-- Classic tabs -->
+
+
+</section>
+<!--Section: Block Content-->
+{% endblock content %}
+
+
+<!--<img src="{% static 'images/cart.png' %}"-->
+</body>
+</html>
